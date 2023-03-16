@@ -3,7 +3,6 @@ const UserController = require('../controller/user_controller')
 const router = new Router();
 const {authenticateToken} = require('../middleware/authenticateToken')
 
-
 router.get('/', UserController.all);
 router.get('/:id', UserController.all);
 router.post('/register', UserController.register ); 
