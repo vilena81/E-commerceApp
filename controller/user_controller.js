@@ -1,3 +1,4 @@
+
 const CryptoJS = require('crypto-js');
 const sqlite = require('sqlite3').verbose()
 const generateAccessToken = require('../functions/generateAccessToken')
@@ -14,6 +15,12 @@ const db = new sqlite.Database('data.db', (err) => {
 class UserController {
     async all(req, res, next) {
         db.all('SELECT * FROM products', [], (err, data) => {
+            res.send(data)
+        })
+    }
+    async byId(req, res, next) {
+        const id = req.params.id
+        db.all('SELECT * FROM products WHERE product_id = ?' , [id], (err, data) => {
             res.send(data)
         })
     }
@@ -40,7 +47,6 @@ class UserController {
             const hashed_password = CryptoJS.SHA256(password).toString();
             const sql = "SELECT * from users WHERE user_name = ?";
             db.get(sql, [user_name], function (err, row) {
-                console.log(row);
                 if (user_name == row.user_name && hashed_password == row.password) {
                     let token = generateAccessToken.generateAccessToken(user_name, row.role)
                     res.send(JSON.stringify({ status: "Logged in", jwt: token }));
@@ -59,7 +65,6 @@ class UserController {
                 db.run('INSERT INTO products (product_name, price, total) values (?,?,?)', [product_name, price, total], (err) => {
                     if (err) {
                         res.send(err);
-                        console.log("text")
                     } else {
                         res.send("Posted")
                     }

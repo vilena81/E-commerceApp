@@ -4,7 +4,7 @@ const router = new Router();
 const {authenticateToken} = require('../middleware/authenticateToken')
 
 router.get('/', UserController.all);
-router.get('/:id', UserController.all);
+router.get('/:id', UserController.byId);
 router.post('/register', UserController.register ); 
 router.post('/login', UserController.login ); 
 
