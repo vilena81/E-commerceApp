@@ -62,7 +62,8 @@ class UserController {
         try {
             if (checkAdmin(req, res)) {
                 const { product_name, price, total } = req.body
-                db.run('INSERT INTO products (product_name, price, total) values (?,?,?)', [product_name, price, total], (err) => {
+                db.run('INSERT INTO products (product_name, price, total) values (?,?,?)', 
+                [product_name, price, total], (err) => {
                     if (err) {
                         res.send(err);
                     } else {
