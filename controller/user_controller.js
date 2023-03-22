@@ -13,18 +13,18 @@ const db = new sqlite.Database('data.db', (err) => {
 });
 
 class UserController {
-    async all(req, res, next) {
+    async all(req, res) {
         db.all('SELECT * FROM products', [], (err, data) => {
             res.send(data)
         })
     }
-    async byId(req, res, next) {
+    async byId(req, res) {
         const id = req.params.id
         db.all('SELECT * FROM products WHERE product_id = ?' , [id], (err, data) => {
             res.send(data)
         })
     }
-    async register(req, res, next) {
+    async register(req, res) {
         try {
             const user_name = req.body.user_name
             const password = req.body.password
@@ -40,7 +40,7 @@ class UserController {
             res.send('ERROR')
         }
     }
-    async login(req, res, next) {
+    async login(req, res) {
         try {
             const user_name = req.body.user_name
             const password = req.body.password
@@ -58,7 +58,7 @@ class UserController {
             res.send('ERROR')
         }
     }
-    async addproduct(req, res, next) {
+    async addproduct(req, res) {
         try {
             if (checkAdmin(req, res)) {
                 const { product_name, price, total } = req.body
@@ -78,7 +78,7 @@ class UserController {
             res.send('ERROR')
         }
     }
-    async update(req, res, next) {
+    async update(req, res) {
         try {
             if (checkAdmin(req, res)) {
                 const { product_name, price, total, id } = req.body
@@ -93,7 +93,7 @@ class UserController {
             res.send('ERROR')
         }
     }
-    async delete(req, res, next) {
+    async delete(req, res) {
         try {
             if (checkAdmin(req, res)) {
                 const id = req.body.id
